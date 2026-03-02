@@ -42,6 +42,17 @@ Este script hace todo lo necesario:
 - Crea la carpeta `data/`
 - Te pide las credenciales de producción y de prueba, y crea los archivos de configuración
 
+Durante la configuración se te pedirán los siguientes valores:
+
+| Variable | Descripción | Ejemplo |
+|---|---|---|
+| `MERCURIO_USER` | Tu usuario de acceso a Mercurio | `JPEREZ` |
+| `MERCURIO_PASSWORD` | Tu contraseña de Mercurio | |
+| `CONTRACT_MONTHS` | Número de meses del contrato | `10` |
+| `SUPERVISOR_USER` | Usuario del supervisor en Mercurio | `CADURANG` |
+
+Se crean dos archivos: `.env` (producción) y `.env.test` (pruebas). Ambos requieren los mismos valores.
+
 ---
 
 ## Preparar los documentos
