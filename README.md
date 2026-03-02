@@ -1,4 +1,4 @@
-# ADN Claude — Automatización de cuentas de cobro
+# Automatización de cuentas de cobro
 
 Script que automatiza el proceso de radicación de cuentas de cobro en el sistema Mercurio del DANE: subida del PDF, llenado del formulario y envío al siguiente paso del workflow.
 
