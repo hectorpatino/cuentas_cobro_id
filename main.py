@@ -153,7 +153,7 @@ def main():
         step(page, lambda: page.get_by_role('option', name=tipo_doc).click())
 
         # Descripción
-        descripcion = f"{user}_{numero_contrato}_{anio}_CTA_{args.ccNo:02d}_{contract_months}"
+        descripcion = pdf_path.stem  # Mercurio exige el nombre nomenclado en la descripción
         print(f"Descripción: {descripcion}")
         page.locator('#descripcion').fill(descripcion)
         time.sleep(5)
