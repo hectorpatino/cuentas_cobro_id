@@ -31,9 +31,11 @@ def validar_archivos(cc_no: int) -> Path:
         print(f"Error: no existe la carpeta '{carpeta}'")
         sys.exit(1)
 
-    pdf = carpeta / PDF_NAME
+    # Preferir archivo ya en formato nuevo (...CTA0909.pdf); si no, el nombre antiguo
+    nuevos = sorted(carpeta.glob(f"*CTA{cc_no:02d}[0-9][0-9].pdf"))
+    pdf = nuevos[0] if nuevos else carpeta / PDF_NAME
     if not pdf.is_file():
-        print(f"Error: no existe el archivo '{pdf}'")
+        print(f"Error: no existe '{carpeta / PDF_NAME}' ni un archivo con formato nuevo en '{carpeta}'")
         sys.exit(1)
 
     print(f"Archivo encontrado: {pdf}")
@@ -120,6 +122,13 @@ def main():
         page.wait_for_load_state("networkidle")
         step(page, lambda: page.frame_locator('iframe[name="opcionesExpediente"]').get_by_role('link', name='Anexar al Expediente').click())
 
+        # Renombrar el PDF antiguo al nombre estándar de Mercurio (ej. SACORREDORM879344026CTA0909)
+        anio = f"{date.today().year % 100:02d}"
+        if pdf_path.name == PDF_NAME:
+            nombre_archivo = f"{user.upper()}{numero_contrato}{anio}CTA{args.ccNo:02d}{int(contract_months):02d}.pdf"
+            pdf_path = pdf_path.rename(pdf_path.with_name(nombre_archivo))
+            print(f"Archivo renombrado: {pdf_path}")
+
         # Subir el PDF
         step(page, lambda: page.set_input_files('input[type="file"]', str(pdf_path)))
 
@@ -148,7 +157,7 @@ def main():
         step(page, lambda: page.get_by_role('option', name=tipo_doc).click())
 
         # Descripción
-        descripcion = f"{user}_{numero_contrato}_26_CTA_{args.ccNo:02d}_{contract_months}"
+        descripcion = f"{user}_{numero_contrato}_{anio}_CTA_{args.ccNo:02d}_{contract_months}"
         print(f"Descripción: {descripcion}")
         page.locator('#descripcion').fill(descripcion)
         time.sleep(5)
