@@ -7,6 +7,7 @@ from pathlib import Path
 VARIABLES = [
     ("MERCURIO_USER", "Usuario de Mercurio"),
     ("MERCURIO_PASSWORD", "Contraseña de Mercurio"),
+    ("CONTRACT_NUMBER", "Número del contrato (ej. 8793440)"),
     ("CONTRACT_MONTHS", "Meses del contrato (ej. 10)"),
     ("SUPERVISOR_USER", "Usuario del supervisor (ej. CADURANG)"),
 ]

@@ -48,6 +48,7 @@ Durante la configuración se te pedirán los siguientes valores:
 |---|---|---|
 | `MERCURIO_USER` | Tu usuario de acceso a Mercurio | `JPEREZ` |
 | `MERCURIO_PASSWORD` | Tu contraseña de Mercurio | |
+| `CONTRACT_NUMBER` | Número del contrato | `8793440` |
 | `CONTRACT_MONTHS` | Número de meses del contrato | `10` |
 | `SUPERVISOR_USER` | Usuario del supervisor en Mercurio | `CADURANG` |
 

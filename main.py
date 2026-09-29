@@ -90,6 +90,7 @@ def main():
     password = os.environ["MERCURIO_PASSWORD"]
     contract_months = os.environ["CONTRACT_MONTHS"]
     supervisor_user = os.environ["SUPERVISOR_USER"]
+    numero_contrato = os.environ["CONTRACT_NUMBER"]
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
@@ -104,15 +105,10 @@ def main():
         step(page, lambda: page.fill('input[placeholder="Ingresar contraseña"]', password))
         step(page, lambda: page.click('button:has-text("Ingresar")'))
 
-        # --- Primera visita al workflow: extraer contrato y abrir expediente ---
+        # --- Primera visita al workflow: abrir expediente ---
         ir_a_bandeja_workflow(page)
 
         step(page, lambda: page.click('a[href*="javascript:selectDoc0();expedientes();"]'))
-
-        # En la página de resultado de expediente, leer el Campo Adicional (td[6])
-        campo_adicional = page.locator('table tbody tr').first.locator('td').nth(6).inner_text().strip()
-        numero_contrato = campo_adicional.split(".")[-1]
-        print(f"Número de contrato: {numero_contrato}")
 
         step(page, lambda: page.locator('table tbody tr').first.locator('a').first.click())
 
