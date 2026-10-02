@@ -78,7 +78,7 @@ uv run python main.py --ccNo 1
 
 Reemplaza `1` con el número de la cuenta de cobro que vas a radicar.
 
-Si el PDF se llama `31InformeActividadesCertificadoCumplimiento.pdf`, el script lo renombra automáticamente al nombre estándar de Mercurio `[USUARIO][CONTRATO][AÑO]CTA[CUENTA][TOTAL]` (ej. `SACORREDORM879344026CTA0909.pdf`). Si ya tiene el formato nuevo, no se cambia.
+Si el PDF se llama `31InformeActividadesCertificadoCumplimiento.pdf` o `31InfoActiCertiCumplimiento.pdf`, el script lo renombra automáticamente al nombre estándar de Mercurio `[USUARIO][CONTRATO][AÑO]CTA[CUENTA][TOTAL]` (ej. `SACORREDORM879344026CTA0909.pdf`). Si ya tiene el formato nuevo, no se cambia.
 
 El script abre el navegador automáticamente, realiza todos los pasos y al finalizar muestra un mensaje de confirmación. Presiona Enter en la terminal para cerrarlo.
 

@@ -11,7 +11,7 @@ from playwright.sync_api import Page, sync_playwright
 URL = "https://gestiondocumental.dane.gov.co/mercurio/index.jsp"
 DELAY = 1
 DATA_DIR = Path(__file__).parent / "data"
-PDF_NAME = "31InformeActividadesCertificadoCumplimiento.pdf"
+PDF_NAMES = ("31InformeActividadesCertificadoCumplimiento.pdf", "31InfoActiCertiCumplimiento.pdf")
 
 
 def step(page, action):
@@ -33,9 +33,10 @@ def validar_archivos(cc_no: int) -> Path:
 
     # Preferir archivo ya en formato nuevo (...CTA0909.pdf); si no, el nombre antiguo
     nuevos = sorted(carpeta.glob(f"*CTA{cc_no:02d}[0-9][0-9].pdf"))
-    pdf = nuevos[0] if nuevos else carpeta / PDF_NAME
-    if not pdf.is_file():
-        print(f"Error: no existe '{carpeta / PDF_NAME}' ni un archivo con formato nuevo en '{carpeta}'")
+    antiguos = [carpeta / n for n in PDF_NAMES if (carpeta / n).is_file()]
+    pdf = nuevos[0] if nuevos else antiguos[0] if antiguos else None
+    if pdf is None:
+        print(f"Error: no existe {' ni '.join(PDF_NAMES)} ni un archivo con formato nuevo en '{carpeta}'")
         sys.exit(1)
 
     print(f"Archivo encontrado: {pdf}")
@@ -118,9 +119,9 @@ def main():
         page.wait_for_load_state("networkidle")
         step(page, lambda: page.frame_locator('iframe[name="opcionesExpediente"]').get_by_role('link', name='Anexar al Expediente').click())
 
-        # Renombrar el PDF antiguo al nombre estándar de Mercurio (ej. SACORREDORM879344026CTA0909)
+        # Renombrar el PDF con nombre antiguo al nombre estándar de Mercurio (ej. SACORREDORM879344026CTA0909)
         anio = f"{date.today().year % 100:02d}"
-        if pdf_path.name == PDF_NAME:
+        if pdf_path.name in PDF_NAMES:
             nombre_archivo = f"{user.upper()}{numero_contrato}{anio}CTA{args.ccNo:02d}{int(contract_months):02d}.pdf"
             pdf_path = pdf_path.rename(pdf_path.with_name(nombre_archivo))
             print(f"Archivo renombrado: {pdf_path}")
